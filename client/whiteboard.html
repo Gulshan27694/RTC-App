@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Whiteboard</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(to right, #74ebd5, #acb6e5);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    h2 {
+      margin-top: 30px;
+      color: #fff;
+      text-shadow: 1px 1px 4px black;
+      font-size: 2rem;
+    }
+
+    canvas {
+      border: 4px solid #ffffff;
+      background-color: #ffffff;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+      margin: 30px 0;
+      transition: transform 0.2s ease-in-out;
+    }
+
+    canvas:hover {
+      transform: scale(1.01);
+    }
+
+    @media (max-width: 900px) {
+      canvas {
+        width: 90%;
+        height: 60vh;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h2 style="text-align:center;">Whiteboard</h2>
+  <canvas id="board" width="800" height="500"></canvas>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    const socket = io();
+
+    const canvas = document.getElementById('board');
+    const ctx = canvas.getContext('2d');
+
+    let drawing = false;
+
+    canvas.addEventListener('mousedown', () => drawing = true);
+    canvas.addEventListener('mouseup', () => drawing = false);
+    canvas.addEventListener('mouseout', () => drawing = false);
+
+    canvas.addEventListener('mousemove', (e) => {
+      if (!drawing) return;
+
+      const x = e.offsetX;
+      const y = e.offsetY;
+
+      draw(x, y);
+      socket.emit('draw', { x, y });
+    });
+
+    // Draw locally
+    function draw(x, y) {
+      ctx.fillStyle = "black";
+      ctx.beginPath();
+      ctx.arc(x, y, 2, 0, Math.PI * 2);
+      ctx.fill();
+    }
+
+    // Receive remote drawing
+    socket.on('draw', ({ x, y }) => {
+      draw(x, y);
+    });
+  </script>
+</body>
+</html>

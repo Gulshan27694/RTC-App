@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Multi-User Video Call + Whiteboard</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      background: #f0f2f5;
+      padding: 20px;
+      text-align: center;
+    }
+
+    h2 {
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    #videos {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+
+    video {
+      width: 300px;
+      height: 225px;
+      border-radius: 10px;
+      border: 3px solid #444;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      background: black;
+    }
+
+    canvas {
+      border: 3px solid #444;
+      border-radius: 8px;
+      margin: 20px auto;
+      display: block;
+      background: white;
+    }
+
+    button, input[type="file"] {
+      margin: 10px 5px;
+      padding: 10px 16px;
+      font-size: 14px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    button {
+      background-color: #007bff;
+      color: white;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    #shareScreenBtn {
+      background-color: #28a745;
+    }
+
+    #shareScreenBtn:hover {
+      background-color: #1e7e34;
+    }
+
+    #fileList {
+      margin-top: 10px;
+      padding: 10px;
+      background: #ffffff;
+      border: 1px solid #ccc;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+      border-radius: 6px;
+      text-align: left;
+    }
+
+    #fileList a {
+      color: #007bff;
+      text-decoration: none;
+    }
+
+    #fileList a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <h2> Multi-User Video Call + Whiteboard + File Sharing</h2>
+
+  <div id="videos"></div>
+  <button onclick="clearBoard()">Clear Whiteboard</button>
+  <button id="shareScreenBtn">Share Screen</button>
+  <input type="file" id="fileInput" />
+<button onclick="uploadFile()">Upload</button>
+
+<div id="fileList"></div>
+
+
+  <div id="videos" style="display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;"></div>
+
+
+  <canvas id="board" width="800" height="500"></canvas>
+
+  <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+  <script src="script.js"></script>
+
+</body>
+</html>
